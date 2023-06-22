@@ -1,10 +1,13 @@
 FROM ubuntu
 
 RUN apt update
-RUN DEBIAN_FRONTEND=noninteractive apt install -y wget gnupg2 make build-essential cmake ca-certificates libjpeg-dev libpng-dev unzip expect
+RUN DEBIAN_FRONTEND=noninteractive apt install -y wget gnupg2 build-essential make cmake ca-certificates libjpeg-dev libpng-dev unzip expect
 
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt -y install tzdata
 COPY ./install-ecw-sdk.exp ./install-ecw-sdk.exp
+
+#I'm using this specific version of ECW JPEG 2000 SDK, but feel free to replace with your own preferred binary version
+#Note: The bin must be in the same folder of this dockerfile
 COPY ./ECWJP2SDKSetup_5.5.0.2268.bin ./install.bin
 RUN chmod +x install.bin 
 RUN expect ./install-ecw-sdk.exp
