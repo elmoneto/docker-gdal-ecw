@@ -1,0 +1,14 @@
+set timeout -1
+spawn ./install.bin
+
+expect "*"
+send -- "1\r"
+
+while 1  {
+    expect {
+        -re ".*Do you accept this License Agreement.*" { send -- "yes\r"; break }
+        -re ".*More.*" { send -- "s"}      
+        -re ".*Mais.*" { send -- "s"}
+    }
+}
+expect eof
