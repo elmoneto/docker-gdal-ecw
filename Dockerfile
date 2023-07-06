@@ -22,20 +22,21 @@ RUN ldconfig /usr/local/hexagon
 RUN apt update
 RUN apt upgrade -y
 RUN apt install -y proj-bin libproj-dev proj-data libproj22
-RUN wget https://github.com/OSGeo/gdal/releases/download/v3.5.3/gdal-3.5.3.tar.gz
-RUN tar -xf gdal-3.5.3.tar.gz
+RUN wget https://github.com/OSGeo/gdal/releases/download/v3.7.0/gdal-3.7.0.tar.gz
+RUN tar -xf gdal-3.7.0.tar.gz
+RUN mkdir ./gdal-3.7.0/build
 
-WORKDIR ./gdal-3.5.3/
-RUN ./configure -with-ecw=/usr/local/hexagon
+WORKDIR ./gdal-3.7.0/build
+RUN cmake -DCMAKE_BUILD_TYPE=Release -DECW_ROOT=/usr/local/hexagon ..
 RUN make
 RUN make install
 
 RUN ln -s /usr/lib/libgdal.so /usr/lib/libgdal.so.1
 RUN /sbin/ldconfig
 
-WORKDIR ../
-RUN rm gdal-3.5.3.tar.gz
-RUN rm -r gdal-3.5.3
+WORKDIR ../../
+RUN rm gdal-3.7.0.tar.gz
+RUN rm -r gdal-3.7.0
 RUN rm -r /usr/local/hexagon
 
 WORKDIR /home
