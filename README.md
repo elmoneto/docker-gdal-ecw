@@ -35,5 +35,9 @@ docker run -it -v /tmp/arquivos:/home/arquivos geolinux:gdal-ecw
 Referências
 
 [Dockerfile reference](https://docs.docker.com/engine/reference/builder/)
+
 [@IlliaOvcharenko](https://github.com/IlliaOvcharenko/gdal-docker)
+
 [@1papaya gist](https://gist.github.com/1papaya/568c4580b1909071696c1cb119101823)
+
+Foto de capa: [Ben den Engelsen](https://unsplash.com/pt-br/@benjeeeman)
