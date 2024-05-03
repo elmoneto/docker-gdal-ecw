@@ -1,4 +1,5 @@
 FROM ubuntu:jammy
+ARG GDAL_VERSION=3.8.5
 
 RUN apt update
 RUN DEBIAN_FRONTEND=noninteractive apt install -y wget gnupg2 build-essential make cmake ca-certificates libjpeg-dev libpng-dev unzip expect
@@ -22,11 +23,11 @@ RUN ldconfig /usr/local/hexagon
 RUN apt update
 RUN apt upgrade -y
 RUN apt install -y proj-bin libproj-dev proj-data libproj22
-RUN wget https://github.com/OSGeo/gdal/releases/download/v3.7.0/gdal-3.7.0.tar.gz
-RUN tar -xf gdal-3.7.0.tar.gz
-RUN mkdir ./gdal-3.7.0/build
+RUN wget https://github.com/OSGeo/gdal/releases/download/v${GDAL_VERSION}/gdal-${GDAL_VERSION}.tar.gz
+RUN tar -xf gdal-${GDAL_VERSION}.tar.gz
+RUN mkdir ./gdal-${GDAL_VERSION}/build
 
-WORKDIR ./gdal-3.7.0/build
+WORKDIR ./gdal-${GDAL_VERSION}/build
 RUN cmake -DCMAKE_BUILD_TYPE=Release -DECW_ROOT=/usr/local/hexagon ..
 RUN make
 RUN make install
@@ -35,8 +36,8 @@ RUN ln -s /usr/lib/libgdal.so /usr/lib/libgdal.so.1
 RUN /sbin/ldconfig
 
 WORKDIR ../../
-RUN rm gdal-3.7.0.tar.gz
-RUN rm -r gdal-3.7.0
+RUN rm gdal-${GDAL_VERSION}.tar.gz
+RUN rm -r gdal-${GDAL_VERSION}
 RUN rm -r /usr/local/hexagon
 
 WORKDIR /home
